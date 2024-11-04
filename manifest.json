@@ -2,28 +2,26 @@
   "manifest_version": 2,
   "name": "ATSFS",
   "version": "1.0",
-  "description": "Automatically add job applications to ATSFS when applying on LinkedIn.",
-  "permissions": ["activeTab", "storage", "https://backend-url.com/*"],
+  "permissions": [
+    "activeTab",
+    "storage",
+    "https://www.linkedin.com/*",
+    "http://localhost:443/*"
+  ],
   "background": {
-    "scripts": ["background.js"]
+    "scripts": ["background.js"],
+    "persistent": false
   },
   "content_scripts": [
     {
-      "matches": ["*://www.linkedin.com/jobs/*"],
-      "js": ["content.js"]
+      "matches": ["https://www.linkedin.com/jobs/*"],
+      "js": ["content.js"],
+      "css": ["styles.css"]
     }
   ],
   "browser_action": {
     "default_popup": "popup.html",
-    "default_icon": {
-      "16": "icons/icon16.png",
-      "48": "icons/icon48.png",
-      "128": "icons/icon128.png"
-    }
+    "default_icon": "icon.png"
   },
-  "icons": {
-    "16": "icons/icon16.png",
-    "48": "icons/icon48.png",
-    "128": "icons/icon128.png"
-  }
+  "content_security_policy": "script-src 'self' http://localhost:443; object-src 'self'"
 }

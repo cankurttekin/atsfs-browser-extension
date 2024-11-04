@@ -1,42 +1,66 @@
-async function extractJobDetails() {
-  const jobTitle = document.querySelector(".jobs-unified-top-card__job-title")?.innerText;
-  const company = document.querySelector(".jobs-unified-top-card__company-name")?.innerText;
-  const location = document.querySelector(".jobs-unified-top-card__bullet")?.innerText;
-  const postedDate = document.querySelector(".jobs-unified-top-card__posted-date")?.innerText;
+// Function to create and append a button to the job listing
+function addJobButton(listing) {
+    const button = document.createElement('button');
+    button.innerText = 'Send to ATSFS';
+    //button.style.marginLeft = '10px';
+    button.classList.add('custom-send-button');
 
-  return { jobTitle, company, location, postedDate };
-}
+    // Add event listener to send job details to the background script
+    button.addEventListener('click', async (e) => {
+        e.preventDefault();
+        const jobTitle = document.querySelector('.job-details-jobs-unified-top-card__job-title h1 a')?.innerText;
+        const jobUrl = document.querySelector('.job-details-jobs-unified-top-card__job-title h1 a')?.href;
+        const companyName = document.querySelector('.job-details-jobs-unified-top-card__company-name')?.textContent.trim();
+        const status = "Applied"; // Refactor this
+        const applicationDate = new Date().toISOString().split('T')[0]; // Today's date
+        const responseDate = null; //"2024-09-01"; 
+        const platform = "LinkedIn"; // Change to reflect the platform
+        const description = document.querySelector('.jobs-description__container').innerText;          
+        const jobDetails = {
+            companyName,
+            jobTitle,
+            status,
+            applicationDate,
+            responseDate,
+            platform,
+            jobUrl,
+            description
+        };
 
-async function sendJobToBackend(jobData) {
-  try {
-    const response = await fetch("https://backend-url.com/api/job-applications", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${await getAuthToken()}`
-      },
-      body: JSON.stringify(jobData)
+        // Retrieve the Bearer token from storage
+        try {
+            const { token } = await browser.storage.local.get('token');
+
+            // Send job details and token to the background script
+            browser.runtime.sendMessage({
+                type: "sendJobDetails",
+                jobDetails,
+                token
+            }).then(response => {
+                if (response.success) {
+                    alert('Job saved to ATSFS!');
+                } else {
+                    alert('Error sending job details to ATSFS: ' + response.error);
+                }
+            }).catch(error => {
+                console.error('Error sending message to background script:', error);
+            });
+        } catch (error) {
+            console.error('Error retrieving token:', error);
+            alert('Failed to retrieve token. Please log in again.');
+        }
     });
 
-    if (response.ok) {
-      alert("Job application added successfully!");
-    } else {
-      console.error("Failed to add job application.");
-    }
-  } catch (error) {
-    console.error("Error sending job data:", error);
-  }
+    // Append the button to the job listing
+    listing.appendChild(button);
+   // console.log("Button added to listing:", listing); // Debug log
 }
 
-async function handleJobApplication() {
-  const jobData = await extractJobDetails();
-  if (jobData.jobTitle && jobData.company) {
-    await sendJobToBackend(jobData);
-  }
-}
-
-// event listener to LinkedIn's "Apply" button
-const applyButton = document.querySelector(".jobs-apply-button");
-if (applyButton) {
-  applyButton.addEventListener("click", handleJobApplication);
+// Select all job listings on the LinkedIn job page
+//const jobListings = document.querySelectorAll('.mt4');
+const jobListings = document.querySelectorAll('.job-details-jobs-unified-top-card__container--two-pane');
+if (jobListings.length === 0) {
+    console.warn("No job listings found. Please check the selector."); 
+} else {
+    jobListings.forEach(addJobButton);
 }

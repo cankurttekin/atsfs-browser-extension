@@ -1,13 +1,30 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Job Auto-Add Settings</title>
-    <script src="popup.js"></script>
-  </head>
-  <body>
-    <h1>ATSFS</h1>
-    <label for="authToken">Auth Token:</label>
-    <input type="text" id="authToken" placeholder="Enter your token">
-    <button id="saveToken">Save</button>
-  </body>
+<head>
+  <title>Login</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    label, input { display: block; margin-bottom: 10px; width: 100%; border-radius: 5px;}
+    button { width: 100%;  background-color: black; color: white; border: none;
+      border-radius: 5px; padding: 12px;
+      margin-left:2px;
+      align-items: center;
+    }
+    button:hover {
+        background-color: #333;
+    }
+  </style>
+</head>
+<body>
+  <h2 style="text-align:center;">Login to ATSFS</h2>
+  <form id="loginForm">
+    <label for="username">Username:</label>
+    <input type="text" id="username" required>
+    <label for="password">Password:</label>
+    <input type="password" id="password" required>
+    <button type="submit">Login</button>
+  </form>
+  <p id="error-message" style="color: red;"></p>
+  <script src="popup.js"></script>
+</body>
 </html>
