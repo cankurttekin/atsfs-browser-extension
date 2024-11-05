@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "name": "ATSFS",
+  "name": "ATSFS - Application Tracking System For Suckers",
   "version": "1.0",
   "permissions": [
     "activeTab",

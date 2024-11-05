@@ -27,7 +27,6 @@ function addJobButton(listing) {
             description
         };
 
-        // Retrieve the Bearer token from storage
         try {
             const { token } = await browser.storage.local.get('token');
 
@@ -60,7 +59,7 @@ function addJobButton(listing) {
 //const jobListings = document.querySelectorAll('.mt4');
 const jobListings = document.querySelectorAll('.job-details-jobs-unified-top-card__container--two-pane');
 if (jobListings.length === 0) {
-    console.warn("No job listings found. Please check the selector."); 
+    console.warn("No job listings found."); 
 } else {
     jobListings.forEach(addJobButton);
 }

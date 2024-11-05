@@ -1,28 +1,26 @@
-
-/* styles.css */
 .custom-send-button {
     background-color: #0A66C2; 
     border: none;
     color: white;
-display: inline-flex;
-box-sizing: border-box;
-font-weight: 600;
-  justify-content: center;
-  line-height: 20px;
-  max-width: 480px;
-  min-height: 40px;
-  min-width: 0px;
-  overflow: hidden;
-  padding: 20px;
-  text-align: center;
-  touch-action: manipulation;
+    display: inline-flex;
+    box-sizing: border-box;
+    font-weight: 600;
+    justify-content: center;
+    line-height: 20px;
+    max-width: 480px;
+    min-height: 40px;
+    min-width: 0px;
+    overflow: hidden;
+    padding: 20px;
+    text-align: center;
+    touch-action: manipulation;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
     margin: 4px 2px;
-    cursor: pointer; /* Pointer cursor on hover */
-    border-radius: 100px; /* Rounded corners */
+    cursor: pointer;
+    border-radius: 100px;
     transition: background-color 0.3s; /* Smooth background color transition */
 }
 

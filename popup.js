@@ -13,7 +13,7 @@ document.getElementById("loginForm").addEventListener("submit", async (event) =>
     });
 
     if (!response.ok) {
-      throw new Error("Invalid username or password");
+      throw new Error("Invalid username or password.");
     }
 
     const { token } = await response.json();
